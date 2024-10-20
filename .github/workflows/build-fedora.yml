@@ -1,0 +1,41 @@
+name: Build Fedora
+
+on:
+  push:
+#    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    name: Fedora ${{ matrix.fedora_version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        fedora_version: [ '40', '41', '42' ]
+    container: fedora:${{ matrix.fedora_version }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # After Fedora 40 the containers no longer have 'lsblk'
+    - name: Ensure lsblk installed
+      run : sudo dnf install -y util-linux
+
+    - name: Install dependencies
+      # On Fedora, rather than use install-qt-action, install the Qt packages from Fedora
+      run: sudo dnf install -y gnutls-devel libv4l-devel qt5-qtbase-devel qt5-qtquickcontrols2-devel qt5-qtmultimedia-devel qtav-devel systemd-devel libusb1-devel turbojpeg-devel ffmpeg-devel libevdev-devel
+
+    - name: Run make
+      working-directory: ${{github.workspace}}/src
+      run: |
+        make clean
+        make
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: qtcam-fedora-${{ matrix.fedora_version }}.zip
+        if-no-files-found: 'error'
+        path: |
+          src/Qtcam
