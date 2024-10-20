@@ -23,9 +23,18 @@ jobs:
     - name: Ensure lsblk installed
       run : sudo dnf install -y util-linux
 
+    - name: Install RPM Fusion
+      run : |
+        sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+        sudo dnf update -y
+
     - name: Install dependencies
-      # On Fedora, rather than use install-qt-action, install the Qt packages from Fedora
-      run: sudo dnf install -y gnutls-devel libv4l-devel qt5-qtbase-devel qt5-qtquickcontrols2-devel qt5-qtmultimedia-devel qtav-devel systemd-devel libusb1-devel turbojpeg-devel ffmpeg-devel libevdev-devel
+      # On Fedora, rather than use install-qt-action, install the Qt packages from Fedora (qtav-devel and ffmpeg-devel require RPM Fusion repositories)
+      run: sudo dnf install -y lsb_release gnutls-devel libv4l-devel qt5-qtbase-devel qt5-qtquickcontrols2-devel qt5-qtmultimedia-devel qtav-devel systemd-devel alsa-lib-devel libusb1-devel turbojpeg-devel ffmpeg-devel libevdev-devel
+
+    - name: Run qmake
+      working-directory: ${{github.workspace}}/src
+      run: qmake-qt5
 
     - name: Run make
       working-directory: ${{github.workspace}}/src
