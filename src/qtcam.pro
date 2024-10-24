@@ -212,9 +212,6 @@ contains(DISTRIBUTION_NAME, bionic):{
     message("Detected Bionic")
     QMAKE_CXX = "g++-5"
     QMAKE_CXXFLAGS += -std=c++11
-} else {
-    QMAKE_CXX = "g++-10"
-    QMAKE_CXXFLAGS += -std=c++14
 }
 
 contains(QMAKE_HOST.arch, amd64):{

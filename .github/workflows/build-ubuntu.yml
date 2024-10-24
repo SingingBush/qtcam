@@ -52,7 +52,7 @@ jobs:
       working-directory: ${{github.workspace}}/src
       run: make
       env:
-        LDFLAGS: '-Wl,--copy-dt-needed-entries'
+        LDFLAGS: '-Wl,--copy-dt-needed-entries -Wl,-rpath-link'
 
     - uses: actions/upload-artifact@v4
       with:
