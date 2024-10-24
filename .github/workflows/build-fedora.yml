@@ -30,7 +30,7 @@ jobs:
 
     - name: Install dependencies
       # On Fedora, rather than use install-qt-action, install the Qt packages from Fedora (qtav-devel and ffmpeg-devel require RPM Fusion repositories)
-      run: sudo dnf install -y lsb_release gnutls-devel libv4l-devel qt5-qtbase-devel qt5-qtquickcontrols2-devel qt5-qtmultimedia-devel qtav-devel systemd-devel alsa-lib-devel libusb1-devel turbojpeg-devel ffmpeg-devel libevdev-devel libpulse-devel
+      run: sudo dnf install -y lsb_release gnutls-devel libv4l-devel qt5-qtbase-devel qt5-qtquickcontrols2-devel qt5-qtmultimedia-devel qtav-devel systemd-devel alsa-lib-devel libusb1-devel turbojpeg-devel ffmpeg-devel libevdev-devel pulseaudio-libs-devel
 
     - name: Run qmake
       working-directory: ${{github.workspace}}/src
