@@ -38,9 +38,9 @@ jobs:
 
     - name: Run make
       working-directory: ${{github.workspace}}/src
-      run: |
-        make clean
-        make
+      run: make
+      env:
+        LDFLAGS: '-Wl,--copy-dt-needed-entries'
 
     - uses: actions/upload-artifact@v4
       with:
